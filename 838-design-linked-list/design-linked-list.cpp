@@ -1,21 +1,11 @@
 class MyLinkedList {
-public:
-
-    struct Node {
-        int val;
-        Node* next;
-
-        Node(int x) {
-            val = x;
-            next = nullptr;
-        }
-    };
-
-    Node* head;
+private:
+    ListNode* head;
     int size;
 
+public:
     MyLinkedList() {
-        head = nullptr;
+        head = new ListNode(0); // Dummy head node
         size = 0;
     }
 
@@ -23,65 +13,34 @@ public:
         if (index < 0 || index >= size) {
             return -1;
         }
-
-        Node* curr = head;
-
-        for (int i = 0; i < index; i++) {
+        ListNode* curr = head;
+        for (int i = 0; i <= index; i++) {
             curr = curr->next;
         }
-
         return curr->val;
     }
 
     void addAtHead(int val) {
-        Node* newNode = new Node(val);
-
-        newNode->next = head;
-        head = newNode;
-
-        size++;
+        addAtIndex(0, val);
     }
 
     void addAtTail(int val) {
-        Node* newNode = new Node(val);
-
-        if (head == nullptr) {
-            head = newNode;
-        }
-        else {
-            Node* curr = head;
-
-            while (curr->next != nullptr) {
-                curr = curr->next;
-            }
-
-            curr->next = newNode;
-        }
-
-        size++;
+        addAtIndex(size, val);
     }
 
     void addAtIndex(int index, int val) {
         if (index < 0 || index > size) {
             return;
         }
-
-        if (index == 0) {
-            addAtHead(val);
-            return;
-        }
-
-        Node* curr = head;
-
-        for (int i = 0; i < index - 1; i++) {
+        
+        ListNode* curr = head;
+        for (int i = 0; i < index; i++) {
             curr = curr->next;
         }
-
-        Node* newNode = new Node(val);
-
+        
+        ListNode* newNode = new ListNode(val);
         newNode->next = curr->next;
         curr->next = newNode;
-
         size++;
     }
 
@@ -89,27 +48,24 @@ public:
         if (index < 0 || index >= size) {
             return;
         }
-
-        if (index == 0) {
-            Node* temp = head;
-            head = head->next;
-
-            delete temp;
-            size--;
-
-            return;
-        }
-
-        Node* curr = head;
-
-        for (int i = 0; i < index - 1; i++) {
+        
+        ListNode* curr = head;
+        for (int i = 0; i < index; i++) {
             curr = curr->next;
         }
-
-        Node* temp = curr->next;
+        
+        ListNode* toDelete = curr->next;
         curr->next = curr->next->next;
-
-        delete temp;
+        delete toDelete;
         size--;
     }
+    
+    // ~MyLinkedList() {
+    //     ListNode* curr = head;
+    //     while (curr != nullptr) {
+    //         ListNode* temp = curr;
+    //         curr = curr->next;
+    //         delete temp;
+    //     }
+    // }
 };
