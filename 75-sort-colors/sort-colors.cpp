@@ -1,20 +1,23 @@
+
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        int minIdx = 0;
+        int counts[3] = {0};
 
-        for(int i = 0;i < nums.size();i++ ){
-             minIdx = i;
+        // Step 1: Count frequency
+        for (int num : nums) {
+            counts[num]++;
+        }
 
-            for(int j = i +1;j<nums.size();j++){
-                 if(nums[j] <nums[minIdx]){
-                    minIdx = j;
-                 }
+        // Step 2: Overwrite nums
+        int index = 0;
+
+        for (int i = 0; i < 3; i++) {
+            while (counts[i] > 0) {
+                nums[index] = i;
+                index++;
+                counts[i]--;
             }
-
-            int temp = nums[minIdx];
-            nums[minIdx] = nums[i];
-            nums[i] = temp;
         }
     }
 };
